@@ -153,4 +153,61 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type local:AutoCompleteTokenizingTextBox}">
+        <Setter Property="Focusable" Value="False"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AutoCompleteTokenizingTextBox}">
+                    <Grid>
+                        <local:TokenizingControl x:Name="PART_TextBox" TokenTemplate="{DynamicResource NameTokenTemplate}">
+                           
+
+                        </local:TokenizingControl>
+                        <Popup x:Name="PART_Popup" 
+                               Width="{TemplateBinding ActualWidth}"
+                               PlacementTarget="{Binding ElementName=PART_TextBox}" 
+                               Placement="Bottom" 
+                               MinHeight="100"
+                               MaxHeight="{TemplateBinding PopupHeight}" 
+                               PopupAnimation="Fade" 
+                               AllowsTransparency="True">
+
+                            <Grid>
+                                <Border Margin="2 2 10 10" BorderBrush="Black" BorderThickness="1" Background="White">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="2"/>
+                                    </Border.Effect>
+                                </Border>
+
+                                <Border Margin="2 2 10 10" BorderBrush="Black" BorderThickness="1">
+                                    <Grid>
+                                        <ListBox x:Name="PART_ListBox" BorderBrush="{x:Null}" Background="Transparent" SelectionMode="Single"
+                                             ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
+                                             ItemsSource="{TemplateBinding Results}" ItemTemplate="{TemplateBinding ItemTemplate}" VirtualizingStackPanel.ScrollUnit="Pixel" />
+                                        <TextBlock x:Name="emptyResults" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Center">No matches found.</TextBlock>
+                                        <TextBlock x:Name="loadingAnimation" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="5" >Searching...</TextBlock>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsBusy" Value="True">
+                            <Setter TargetName="loadingAnimation" Property="Visibility" Value="Visible"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsBusy" Value="False">
+                            <Setter TargetName="loadingAnimation" Property="Visibility" Value="Hidden"></Setter>
+                        </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Results.Count}" Value="0" />
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsBusy}" Value="false" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="emptyResults" Property="Visibility" Value="Visible"></Setter>
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

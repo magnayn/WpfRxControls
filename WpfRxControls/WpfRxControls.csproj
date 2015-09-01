@@ -69,7 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoCompleteQueryResultProvider.cs" />
+    <Compile Include="AutoCompleteTokenizingTextBox.cs" />
     <Compile Include="IAutoCompleteQueryResult.cs" />
+    <Compile Include="TokenizingControl.cs" />
     <Compile Include="Utils\TreeUtils.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
