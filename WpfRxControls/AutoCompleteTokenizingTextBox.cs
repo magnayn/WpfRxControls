@@ -446,6 +446,14 @@ namespace WpfRxControls
             this.subscriptions.Add(textAboveMinimumSubscription);
         }
 
+        public IAutoCompleteQueryResult SelectedToken
+        {
+            get
+            {  return partTextBox.SelectedToken; }
+            set
+            { partTextBox.SelectedToken = value; }
+        }
+
         private void SetResultText(IAutoCompleteQueryResult autoCompleteQueryResult)
         {
             this.publishedResultsObservableConnection.Dispose();
