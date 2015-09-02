@@ -12,10 +12,16 @@ using System.Windows.Input;
 
 namespace WpfRxControls
 {
+
+    public delegate void TokenChangedDelegate(object sender, IAutoCompleteQueryResult token);
+
     public class TokenizingControl : RichTextBox
     {
         public static readonly DependencyProperty TokenTemplateProperty =
             DependencyProperty.Register("TokenTemplate", typeof(DataTemplate), typeof(TokenizingControl));
+
+
+        public event TokenChangedDelegate TokenChanged;
 
         public DataTemplate TokenTemplate
         {
@@ -36,7 +42,10 @@ namespace WpfRxControls
         public IAutoCompleteQueryResult SelectedToken {  set
             {
                 _selectedToken = value;
-                
+                if( TokenChanged != null )
+                {
+                    TokenChanged(this, value);
+                }
 
                 FlowDocument doc = new FlowDocument();
                 if (value != null)

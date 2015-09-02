@@ -32,6 +32,8 @@ namespace WpfRxControls
 
     using WpfRxControls.Utils;
 
+    
+
     [TemplatePart(Name = PartTextBox, Type = typeof(TokenizingControl))]
     [TemplatePart(Name = PartPopup, Type = typeof(Popup))]
     [TemplatePart(Name = PartListBox, Type = typeof(ListBox))]
@@ -52,6 +54,8 @@ namespace WpfRxControls
 
         private IConnectableObservable<IEnumerable<object>> publishedResultsObservable;
         private IDisposable publishedResultsObservableConnection;
+
+        public event TokenChangedDelegate TokenChanged;
 
         static AutoCompleteTokenizingTextBox()
         {
@@ -320,6 +324,8 @@ namespace WpfRxControls
                 throw new InvalidOperationException("Associated ControlTemplate has a bad part configuration. Expected a TextBox part.");
             }
 
+            partTextBox.TokenChanged += PartTextBox_TokenChanged;
+
             partPopup = this.GetTemplateChild(PartPopup) as Popup;
             if (partPopup == null)
             {
@@ -356,7 +362,13 @@ namespace WpfRxControls
             this.RegisterKeyboardAndMouseEventHandlers();
             this.OnConfigurationChanged();            
         }
-        
+
+        private void PartTextBox_TokenChanged(object sender, IAutoCompleteQueryResult token)
+        {
+            if (TokenChanged != null)
+                TokenChanged(this, token);
+        }
+
         private void OnConfigurationChanged()
         {
             if (isTemplateApplied)
@@ -451,7 +463,9 @@ namespace WpfRxControls
             get
             {  return partTextBox.SelectedToken; }
             set
-            { partTextBox.SelectedToken = value; }
+            { partTextBox.SelectedToken = value;
+              
+            }
         }
 
         private void SetResultText(IAutoCompleteQueryResult autoCompleteQueryResult)
