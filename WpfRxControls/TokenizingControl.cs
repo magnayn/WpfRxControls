@@ -70,6 +70,10 @@ namespace WpfRxControls
 
         private void OnStart(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Tab)
+                return;
+        
+
             if (_selectedToken != null)
             {
                 // Single token only.
