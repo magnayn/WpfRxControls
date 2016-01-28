@@ -540,6 +540,12 @@ namespace WpfRxControls
                     args.Handled = true;
                 }
 
+                //else if( args.Key == Key.Tab )
+                //{
+                //    args.Handled = true;
+               // }
+
+
                 this.partListBox.ScrollIntoView(this.partListBox.SelectedItem);
             };
 
