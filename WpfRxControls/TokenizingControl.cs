@@ -34,7 +34,8 @@ namespace WpfRxControls
         public TokenizingControl()
         {
             TextChanged += OnTokenTextChanged;
-            KeyDown += OnStart;
+         //   KeyDown += OnStart;
+            PreviewKeyDown += OnKeyDown;
         }
 
         private IAutoCompleteQueryResult _selectedToken;
@@ -68,11 +69,12 @@ namespace WpfRxControls
             }
         }
 
-        private void OnStart(object sender, KeyEventArgs e)
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Tab)
                 return;
-        
+
 
             if (_selectedToken != null)
             {
