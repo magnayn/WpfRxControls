@@ -360,7 +360,10 @@ namespace WpfRxControls
            
             this.CaptureWindowMovementForPopupPlacement();
             this.RegisterKeyboardAndMouseEventHandlers();
-            this.OnConfigurationChanged();            
+            this.OnConfigurationChanged();
+
+            if (_token != null)
+                SelectedToken = _token;      
         }
 
         private void PartTextBox_TokenChanged(object sender, IAutoCompleteQueryResult token)
@@ -458,13 +461,18 @@ namespace WpfRxControls
             this.subscriptions.Add(textAboveMinimumSubscription);
         }
 
+        IAutoCompleteQueryResult _token;
+
         public IAutoCompleteQueryResult SelectedToken
         {
             get
             {  return partTextBox.SelectedToken; }
             set
-            { partTextBox.SelectedToken = value;
-              
+            {
+                if (partTextBox == null)
+                    _token = value;
+                else
+                    partTextBox.SelectedToken = value;              
             }
         }
 
