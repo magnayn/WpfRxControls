@@ -50,7 +50,7 @@ namespace WpfRxControls
         private bool isTemplateApplied;
         private ListBox partListBox;
         private Popup partPopup;
-        private TokenizingControl partTextBox;
+        public TokenizingControl partTextBox;
 
         private IConnectableObservable<IEnumerable<object>> publishedResultsObservable;
         private IDisposable publishedResultsObservableConnection;
